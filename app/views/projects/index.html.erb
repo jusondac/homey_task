@@ -1,5 +1,9 @@
 <div class="container mx-auto px-4 py-8">
-  <h1 class="font-bold text-4xl mb-8">Projects</h1>
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-bold text-4xl">My Projects</h1>
+    <span class="text-gray-600">Welcome, <%= Current.user.display_name %>!</span>
+  </div>
+  
   <% if @projects.any? %>
     <div class="grid gap-6">
       <% @projects.each do |project| %>
@@ -10,9 +14,35 @@
               <%= project.status&.humanize || 'No Status' %>
             </span>
           </div>
+          
           <% if project.description.present? %>
             <p class="text-gray-600 mb-4"><%= truncate(project.description, length: 150) %></p>
           <% end %>
+          
+          <!-- Project Team -->
+          <div class="mb-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <span class="text-sm font-medium text-gray-700">Team:</span>
+              <% if project.user == Current.user %>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800">Owner</span>
+              <% else %>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">Member</span>
+              <% end %>
+            </div>
+            <div class="flex flex-wrap gap-1">
+              <% project.all_users.first(4).each do |member| %>
+                <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-50 text-gray-700">
+                  <%= member.display_name %>
+                </span>
+              <% end %>
+              <% if project.all_users.count > 4 %>
+                <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-50 text-gray-700">
+                  +<%= project.all_users.count - 4 %> more
+                </span>
+              <% end %>
+            </div>
+          </div>
+          
           <div class="flex justify-between items-center text-sm text-gray-500">
             <span><%= pluralize(project.comments.count, 'comment') %></span>
             <span>Updated <%= time_ago_in_words(project.updated_at) %> ago</span>

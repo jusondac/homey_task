@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_01_110402) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_01_111730) do
   create_table "comments", force: :cascade do |t|
     t.integer "project_id", null: false
     t.text "content"
@@ -20,6 +20,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_110402) do
     t.integer "user_id", null: false
     t.index ["project_id"], name: "index_comments_on_project_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "project_memberships", force: :cascade do |t|
+    t.integer "project_id", null: false
+    t.integer "user_id", null: false
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_memberships_on_project_id"
+    t.index ["user_id"], name: "index_project_memberships_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -61,6 +71,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_01_110402) do
 
   add_foreign_key "comments", "projects"
   add_foreign_key "comments", "users"
+  add_foreign_key "project_memberships", "projects"
+  add_foreign_key "project_memberships", "users"
   add_foreign_key "projects", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "status_changes", "projects"

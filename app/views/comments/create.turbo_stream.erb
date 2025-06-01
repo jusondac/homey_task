@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "comment-form" do %>
+  <%= render "comments/form", comment: @project.comments.build, project: @project %>
+<% end %>
