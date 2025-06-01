@@ -183,7 +183,7 @@ RSpec.describe RegistrationsController, type: :controller do
           'password' => 'password123',
           'password_confirmation' => 'password123'
         }
-        expect(registration_params).to eq(expected_params)
+        expect(registration_params.to_h).to eq(expected_params)
       end
 
       it 'does not permit admin parameter' do

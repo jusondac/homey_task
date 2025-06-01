@@ -11,6 +11,20 @@ class User < ApplicationRecord
   validates :email_address, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: 6 }, on: :create
 
+  # Password reset token functionality
+  def self.find_by_password_reset_token!(token)
+    # In a real app, this would verify a signed/encrypted token
+    # For now, we'll just decode it and find the user
+    user_id = Rails.application.message_verifier("password_reset").verify(token)
+    find(user_id)
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    raise ActiveSupport::MessageVerifier::InvalidSignature
+  end
+
+  def password_reset_token
+    Rails.application.message_verifier("password_reset").generate(id)
+  end
+
   # Get all projects user has access to (owned + member)
   def accessible_projects
     Project.joins("LEFT JOIN project_memberships ON projects.id = project_memberships.project_id")

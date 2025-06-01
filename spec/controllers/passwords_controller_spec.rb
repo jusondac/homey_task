@@ -70,17 +70,17 @@ RSpec.describe PasswordsController, type: :controller do
       end
 
       it 'assigns the user to @user' do
-        get :edit, params: { token: valid_token }
+        get :edit, params: { id: valid_token }
         expect(assigns(:user)).to eq(user)
       end
 
       it 'renders the edit template' do
-        get :edit, params: { token: valid_token }
+        get :edit, params: { id: valid_token }
         expect(response).to render_template(:edit)
       end
 
       it 'returns successful response' do
-        get :edit, params: { token: valid_token }
+        get :edit, params: { id: valid_token }
         expect(response).to have_http_status(:success)
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe PasswordsController, type: :controller do
       end
 
       it 'redirects to new password path with alert' do
-        get :edit, params: { token: 'invalid_token' }
+        get :edit, params: { id: 'invalid_token' }
         expect(response).to redirect_to(new_password_path)
         expect(flash[:alert]).to eq('Password reset link is invalid or has expired.')
       end
@@ -101,7 +101,7 @@ RSpec.describe PasswordsController, type: :controller do
 
     it 'does not require authentication' do
       allow(User).to receive(:find_by_password_reset_token!).and_return(user)
-      get :edit, params: { token: valid_token }
+      get :edit, params: { id: valid_token }
       expect(response).not_to redirect_to(new_session_path)
     end
   end
@@ -117,7 +117,7 @@ RSpec.describe PasswordsController, type: :controller do
     context 'with valid password parameters' do
       let(:valid_params) do
         {
-          token: valid_token,
+          id: valid_token,
           password: 'newpassword123',
           password_confirmation: 'newpassword123'
         }
@@ -138,7 +138,7 @@ RSpec.describe PasswordsController, type: :controller do
     context 'with invalid password parameters' do
       let(:invalid_params) do
         {
-          token: valid_token,
+          id: valid_token,
           password: 'newpassword123',
           password_confirmation: 'different_password'
         }
@@ -170,7 +170,7 @@ RSpec.describe PasswordsController, type: :controller do
 
       it 'redirects to new password path with alert' do
         patch :update, params: {
-          token: 'invalid_token',
+          id: 'invalid_token',
           password: 'newpassword123',
           password_confirmation: 'newpassword123'
         }
@@ -181,7 +181,7 @@ RSpec.describe PasswordsController, type: :controller do
 
     it 'does not require authentication' do
       patch :update, params: {
-        token: valid_token,
+        id: valid_token,
         password: 'newpassword123',
         password_confirmation: 'newpassword123'
       }
@@ -198,13 +198,13 @@ RSpec.describe PasswordsController, type: :controller do
     end
 
     it 'sets user by token for edit action' do
-      get :edit, params: { token: valid_token }
+      get :edit, params: { id: valid_token }
       expect(assigns(:user)).to eq(user)
     end
 
     it 'sets user by token for update action' do
       patch :update, params: {
-        token: valid_token,
+        id: valid_token,
         password: 'newpassword123',
         password_confirmation: 'newpassword123'
       }

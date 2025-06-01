@@ -70,4 +70,5 @@ group :test do
   # Additional RSpec testing gems
   gem "shoulda-matchers"
   gem "faker"
+  gem "rails-controller-testing"
 end

@@ -136,7 +136,7 @@ RSpec.describe CommentsController, type: :controller do
 
       it 'permits only content parameter' do
         comment_params = controller_instance.send(:comment_params)
-        expect(comment_params).to eq({ 'content' => 'Test content' })
+        expect(comment_params.to_h).to eq({ 'content' => 'Test content' })
       end
 
       it 'does not permit user_id' do

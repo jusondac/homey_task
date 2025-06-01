@@ -25,9 +25,8 @@ RSpec.describe ProjectsController, type: :controller do
     end
 
     it 'includes associated records to avoid N+1 queries' do
-      expect(user).to receive(:accessible_projects).and_return(
-        double('relation', includes: Project.none)
-      )
+      # Test that the query includes associated records
+      expect_any_instance_of(ActiveRecord::Relation).to receive(:includes).with(:comments, :status_changes, :user, :members).and_call_original
       get :index
     end
 
