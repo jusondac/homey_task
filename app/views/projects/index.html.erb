@@ -3,7 +3,6 @@
     <h1 class="font-bold text-4xl">My Projects</h1>
     <span class="text-gray-600">Welcome, <%= Current.user.display_name %>!</span>
   </div>
-  
   <% if @projects.any? %>
     <div class="grid gap-6">
       <% @projects.each do |project| %>
@@ -14,11 +13,9 @@
               <%= project.status&.humanize || 'No Status' %>
             </span>
           </div>
-          
           <% if project.description.present? %>
             <p class="text-gray-600 mb-4"><%= truncate(project.description, length: 150) %></p>
           <% end %>
-          
           <!-- Project Team -->
           <div class="mb-4">
             <div class="flex items-center space-x-2 mb-2">
@@ -42,7 +39,6 @@
               <% end %>
             </div>
           </div>
-          
           <div class="flex justify-between items-center text-sm text-gray-500">
             <span><%= pluralize(project.comments.count, 'comment') %></span>
             <span>Updated <%= time_ago_in_words(project.updated_at) %> ago</span>

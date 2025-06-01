@@ -5,5 +5,5 @@ class ProjectMembership < ApplicationRecord
   validates :user_id, uniqueness: { scope: :project_id }
   validates :role, presence: true
 
-  enum :role, { member: 'member', admin: 'admin' }
+  enum :role, { member: "member", admin: "admin" }
 end

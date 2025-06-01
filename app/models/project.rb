@@ -10,7 +10,8 @@ class Project < ApplicationRecord
 
   # Get all conversation history items (comments and status changes) sorted by creation time
   def conversation_history
-    (comments + status_changes).sort_by(&:created_at)
+    items = comments.includes(:user).to_a + status_changes.to_a
+    items.select { |item| item.created_at.present? }.sort_by(&:created_at)
   end
 
   # Check if user can access this project (owner or member)
@@ -20,7 +21,7 @@ class Project < ApplicationRecord
 
   # Get all users who have access to this project
   def all_users
-    ([user] + members).uniq
+    ([ user ] + members).uniq
   end
 
   # Update status and create a status change record
