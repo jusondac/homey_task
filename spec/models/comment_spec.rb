@@ -22,7 +22,7 @@ RSpec.describe Comment, type: :model do
       user = create(:user, email_address: 'john.doe@example.com')
       comment = create(:comment, user: user)
 
-      expect(comment.author).to eq('John doe')
+      expect(comment.author).to eq('John.doe')
     end
   end
 

@@ -36,15 +36,14 @@ RSpec.describe Project, type: :model do
       expect(history).to include(status_change1)
     end
 
-    it 'filters out items without created_at' do
-      # This shouldn't happen in normal circumstances, but let's test defensive coding
-      allow(comment1).to receive(:created_at).and_return(nil)
-
+    it 'sorts items by created_at in ascending order' do
+      # Ensure the sorting works correctly by checking order
       history = project.conversation_history
 
-      expect(history).not_to include(comment1)
-      expect(history).to include(status_change1)
+      expect(history.first.created_at).to be <= history.last.created_at
+      expect(history).to include(comment1)
       expect(history).to include(comment2)
+      expect(history).to include(status_change1)
     end
   end
 

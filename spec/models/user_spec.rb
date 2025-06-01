@@ -14,12 +14,12 @@ RSpec.describe User, type: :model do
 
   describe 'validations' do
     it { should validate_presence_of(:email_address) }
-    
+
     context 'email uniqueness' do
       subject { create(:user) }
       it { should validate_uniqueness_of(:email_address).case_insensitive }
     end
-    
+
     it { should allow_value('user@example.com').for(:email_address) }
     it { should_not allow_value('invalid_email').for(:email_address) }
     it { should validate_presence_of(:password).on(:create) }

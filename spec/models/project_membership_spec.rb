@@ -14,7 +14,7 @@ RSpec.describe ProjectMembership, type: :model do
   end
 
   describe 'enums' do
-    it { should define_enum_for(:role).with_values(member: 'member', admin: 'admin') }
+    it { should define_enum_for(:role).with_values(member: 'member', admin: 'admin').backed_by_column_of_type(:string) }
   end
 
   describe 'uniqueness validation' do
