@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  from_status: MyString
+  to_status: MyString
+  changed_by: MyString
+
+two:
+  project: two
+  from_status: MyString
+  to_status: MyString
+  changed_by: MyString

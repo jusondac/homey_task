@@ -1,0 +1,28 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="font-bold text-4xl mb-8">Projects</h1>
+  <% if @projects.any? %>
+    <div class="grid gap-6">
+      <% @projects.each do |project| %>
+        <div class="bg-white shadow-md rounded-lg p-6 border">
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="text-xl font-semibold"><%= link_to project.name, project, class: "text-blue-600 hover:text-blue-800" %></h2>
+            <span class="px-3 py-1 rounded-full text-sm font-medium <%= status_badge_class(project.status) %>">
+              <%= project.status&.humanize || 'No Status' %>
+            </span>
+          </div>
+          <% if project.description.present? %>
+            <p class="text-gray-600 mb-4"><%= truncate(project.description, length: 150) %></p>
+          <% end %>
+          <div class="flex justify-between items-center text-sm text-gray-500">
+            <span><%= pluralize(project.comments.count, 'comment') %></span>
+            <span>Updated <%= time_ago_in_words(project.updated_at) %> ago</span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <p class="text-gray-500 text-lg">No projects found. Create your first project to get started!</p>
+    </div>
+  <% end %>
+</div>

@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  root "projects#index"
+
+  # Authentication routes
+  resource :session, only: [ :new, :create, :destroy ]
+  resources :registrations, only: [ :new, :create ]
+  resources :passwords, only: [ :new, :create, :edit, :update ]
+
+  resources :projects, only: [ :index, :show ] do
+    resources :comments, only: [ :create ]
+    member do
+      patch :update_status
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
